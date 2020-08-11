@@ -1,16 +1,16 @@
 package com.checkr.interviews;
 
 public enum CsvLayout {
-    PERMALINK_INDEX(0),
-    COMPANY_NAME_INDEX(1),
-    NUMBER_OF_EMPLOYEES_INDEX(2),
-    CATEGORY_INDEX(3),
-    CITY_INDEX(4),
-    STATE_INDEX(5),
-    FUNDED_DATE_INDEX(6),
-    RAISED_AMOUNT_INDEX(7),
-    RAISED_CURRENCY_INDEX(8),
-    ROUND_INDEX(9);
+    PERMALINK(0),
+    COMPANY_NAME(1),
+    NUMBER_OF_EMPLOYEES(2),
+    CATEGORY(3),
+    CITY(4),
+    STATE(5),
+    FUNDED_DATE(6),
+    RAISED_AMOUNT(7),
+    RAISED_CURRENCY(8),
+    ROUND(9);
 
     private int index;
 
