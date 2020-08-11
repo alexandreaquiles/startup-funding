@@ -1,4 +1,4 @@
-package com.checkr.interviews;
+package com.checkr.interviews.csv;
 
 import com.opencsv.CSVReader;
 

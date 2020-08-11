@@ -1,12 +1,17 @@
 package com.checkr.interviews;
 
+import com.checkr.interviews.csv.CsvReader;
+import com.checkr.interviews.funding.csv.FundingCsvLayout;
+import com.checkr.interviews.funding.csv.FundingDetailsCsvRetriever;
+import com.checkr.interviews.funding.csv.NoSuchEntryException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.checkr.interviews.CsvLayout.*;
+import static com.checkr.interviews.funding.csv.FundingCsvLayout.*;
 
 public class FundingRaised {
 
@@ -20,7 +25,7 @@ public class FundingRaised {
         List<Map<String, String>> output = new ArrayList<>();
 
         for (String[] csvDatum : csvData) {
-            output.add(retrieveFundingDetailsFromCsvDatum(csvDatum));
+            output.add(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
         }
 
         return output;
@@ -33,7 +38,7 @@ public class FundingRaised {
         for (String[] csvDatum : csvData) {
             if (options.containsKey(COMPANY_NAME.key())) {
                 if (csvDatum[COMPANY_NAME.index()].equals(options.get(COMPANY_NAME.key()))) {
-                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
+                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -41,7 +46,7 @@ public class FundingRaised {
 
             if (options.containsKey(CITY.key())) {
                 if (csvDatum[CITY.index()].equals(options.get(CITY.key()))) {
-                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
+                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -49,7 +54,7 @@ public class FundingRaised {
 
             if (options.containsKey(STATE.key())) {
                 if (csvDatum[STATE.index()].equals(options.get(STATE.key()))) {
-                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
+                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -57,7 +62,7 @@ public class FundingRaised {
 
             if (options.containsKey(ROUND.key())) {
                 if (csvDatum[ROUND.index()].equals(options.get(ROUND.key()))) {
-                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
+                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -69,22 +74,7 @@ public class FundingRaised {
         throw new NoSuchEntryException();
     }
 
-    private static Map<String, String> retrieveFundingDetailsFromCsvDatum(String[] csvDatum) {
-        Map<String, String> mapped = new HashMap<>();
-        mapped.put("permalink", csvDatum[PERMALINK.index()]);
-        mapped.put("company_name", csvDatum[COMPANY_NAME.index()]);
-        mapped.put("number_employees", csvDatum[NUMBER_OF_EMPLOYEES.index()]);
-        mapped.put("category", csvDatum[CATEGORY.index()]);
-        mapped.put("city", csvDatum[CITY.index()]);
-        mapped.put("state", csvDatum[STATE.index()]);
-        mapped.put("funded_date", csvDatum[FUNDED_DATE.index()]);
-        mapped.put("raised_amount", csvDatum[RAISED_AMOUNT.index()]);
-        mapped.put("raised_currency", csvDatum[RAISED_CURRENCY.index()]);
-        mapped.put("round", csvDatum[ROUND.index()]);
-        return mapped;
-    }
-
-    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, CsvLayout csvLayout) {
+    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, FundingCsvLayout csvLayout) {
         String csvLayoutKey = csvLayout.key();
         if (options.containsKey(csvLayoutKey)) {
             String searchValue = options.get(csvLayoutKey);
@@ -103,4 +93,3 @@ public class FundingRaised {
 
 }
 
-class NoSuchEntryException extends Exception {}

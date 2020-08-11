@@ -1,5 +1,6 @@
 package com.checkr.interviews;
 
+import com.checkr.interviews.funding.csv.NoSuchEntryException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
