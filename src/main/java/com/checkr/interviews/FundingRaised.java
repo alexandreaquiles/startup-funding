@@ -1,8 +1,5 @@
 package com.checkr.interviews;
 
-import com.opencsv.CSVReader;
-
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +11,7 @@ import static com.checkr.interviews.CsvLayout.*;
 public class FundingRaised {
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
-        List<String[]> csvData = CsvReader.readCsv();
+        List<String[]> csvData = CsvReader.readCsv("startup_funding.csv");
         csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME_INDEX.getIndex());
         csvData = retrieveDataFromCsv(options, csvData, "city", CITY_INDEX.getIndex());
         csvData = retrieveDataFromCsv(options, csvData, "state", STATE_INDEX.getIndex());
@@ -32,7 +29,7 @@ public class FundingRaised {
     }
 
     public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
-        List<String[]> csvData = CsvReader.readCsv();
+        List<String[]> csvData = CsvReader.readCsv("startup_funding.csv");
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {

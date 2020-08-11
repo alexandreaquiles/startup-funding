@@ -9,9 +9,9 @@ import java.util.List;
 
 public class CsvReader {
 
-    public static List<String[]> readCsv() throws IOException {
+    public static List<String[]> readCsv(String fileName) throws IOException {
         List<String[]> csvData = new ArrayList<>();
-        CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
+        CSVReader reader = new CSVReader(new FileReader(fileName));
         String[] row = null;
 
         while ((row = reader.readNext()) != null) {
