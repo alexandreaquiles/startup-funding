@@ -95,7 +95,7 @@ public class FundingRaised {
         }
 
         reader.close();
-        csvData.remove(0);
+        csvData.remove(0); // remove header
         return csvData;
     }
 
