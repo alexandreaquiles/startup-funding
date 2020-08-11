@@ -14,7 +14,7 @@ import static com.checkr.interviews.CsvLayout.*;
 public class FundingRaised {
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
-        List<String[]> csvData = readCsv();
+        List<String[]> csvData = CsvReader.readCsv();
         csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME_INDEX.getIndex());
         csvData = retrieveDataFromCsv(options, csvData, "city", CITY_INDEX.getIndex());
         csvData = retrieveDataFromCsv(options, csvData, "state", STATE_INDEX.getIndex());
@@ -32,7 +32,7 @@ public class FundingRaised {
     }
 
     public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
-        List<String[]> csvData = readCsv();
+        List<String[]> csvData = CsvReader.readCsv();
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {
@@ -98,20 +98,6 @@ public class FundingRaised {
             }
             csvData = results;
         }
-        return csvData;
-    }
-
-    private static List<String[]> readCsv() throws IOException {
-        List<String[]> csvData = new ArrayList<>();
-        CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
-        String[] row = null;
-
-        while ((row = reader.readNext()) != null) {
-            csvData.add(row);
-        }
-
-        reader.close();
-        csvData.remove(0); // remove header
         return csvData;
     }
 
