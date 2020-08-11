@@ -20,9 +20,7 @@ public class FundingRaised {
         List<Map<String, String>> output = new ArrayList<>();
 
         for (String[] csvDatum : csvData) {
-            Map<String, String> mapped = new HashMap<>();
-            retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
-            output.add(mapped);
+            output.add(retrieveFundingDetailsFromCsvDatum(csvDatum));
         }
 
         return output;
@@ -35,7 +33,7 @@ public class FundingRaised {
         for (String[] csvDatum : csvData) {
             if (options.containsKey(COMPANY_NAME.key())) {
                 if (csvDatum[COMPANY_NAME.index()].equals(options.get(COMPANY_NAME.key()))) {
-                    retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
+                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -43,7 +41,7 @@ public class FundingRaised {
 
             if (options.containsKey(CITY.key())) {
                 if (csvDatum[CITY.index()].equals(options.get(CITY.key()))) {
-                    retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
+                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -51,7 +49,7 @@ public class FundingRaised {
 
             if (options.containsKey(STATE.key())) {
                 if (csvDatum[STATE.index()].equals(options.get(STATE.key()))) {
-                    retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
+                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -59,7 +57,7 @@ public class FundingRaised {
 
             if (options.containsKey(ROUND.key())) {
                 if (csvDatum[ROUND.index()].equals(options.get(ROUND.key()))) {
-                    retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
+                    mapped.putAll(retrieveFundingDetailsFromCsvDatum(csvDatum));
                 } else {
                     continue;
                 }
@@ -71,7 +69,8 @@ public class FundingRaised {
         throw new NoSuchEntryException();
     }
 
-    private static void retrieveFundingDetailsFromCsvDatum(Map<String, String> mapped, String[] csvDatum) {
+    private static Map<String, String> retrieveFundingDetailsFromCsvDatum(String[] csvDatum) {
+        Map<String, String> mapped = new HashMap<>();
         mapped.put("permalink", csvDatum[PERMALINK.index()]);
         mapped.put("company_name", csvDatum[COMPANY_NAME.index()]);
         mapped.put("number_employees", csvDatum[NUMBER_OF_EMPLOYEES.index()]);
@@ -82,6 +81,7 @@ public class FundingRaised {
         mapped.put("raised_amount", csvDatum[RAISED_AMOUNT.index()]);
         mapped.put("raised_currency", csvDatum[RAISED_CURRENCY.index()]);
         mapped.put("round", csvDatum[ROUND.index()]);
+        return mapped;
     }
 
     private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, CsvLayout csvLayout) {
