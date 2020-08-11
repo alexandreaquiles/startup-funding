@@ -1,7 +1,7 @@
 package com.checkr.interviews;
 
+import com.checkr.interviews.csv.CsvLayout;
 import com.checkr.interviews.csv.CsvReader;
-import com.checkr.interviews.funding.csv.FundingCsvLayout;
 import com.checkr.interviews.funding.csv.FundingDetailsCsvRetriever;
 import com.checkr.interviews.funding.csv.NoSuchEntryException;
 
@@ -36,37 +36,14 @@ public class FundingRaised {
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {
-            if (options.containsKey(COMPANY_NAME.key())) {
-                if (csvDatum[COMPANY_NAME.index()].equals(options.get(COMPANY_NAME.key()))) {
-                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
-                } else {
-                    continue;
-                }
-            }
 
-            if (options.containsKey(CITY.key())) {
-                if (csvDatum[CITY.index()].equals(options.get(CITY.key()))) {
-                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
-                } else {
-                    continue;
-                }
-            }
+            if (filterCsv(options, mapped, csvDatum, COMPANY_NAME)) continue;
 
-            if (options.containsKey(STATE.key())) {
-                if (csvDatum[STATE.index()].equals(options.get(STATE.key()))) {
-                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
-                } else {
-                    continue;
-                }
-            }
+            if (filterCsv(options, mapped, csvDatum, CITY)) continue;
 
-            if (options.containsKey(ROUND.key())) {
-                if (csvDatum[ROUND.index()].equals(options.get(ROUND.key()))) {
-                    mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
-                } else {
-                    continue;
-                }
-            }
+            if (filterCsv(options, mapped, csvDatum, STATE)) continue;
+
+            if (filterCsv(options, mapped, csvDatum, ROUND)) continue;
 
             return mapped;
         }
@@ -74,19 +51,34 @@ public class FundingRaised {
         throw new NoSuchEntryException();
     }
 
-    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, FundingCsvLayout csvLayout) {
+    private static boolean filterCsv(Map<String, String> options, Map<String, String> mapped, String[] csvDatum, CsvLayout csvLayout) {
         String csvLayoutKey = csvLayout.key();
+        int csvLayoutIndex = csvLayout.index();
+        if (options.containsKey(csvLayoutKey)) {
+            String searchValue = options.get(csvLayoutKey);
+            if (csvDatum[csvLayoutIndex].equals(searchValue)) {
+                mapped.putAll(FundingDetailsCsvRetriever.retrieveFundingDetailsFromCsvDatum(csvDatum));
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, CsvLayout csvLayout) {
+        String csvLayoutKey = csvLayout.key();
+        int csvLayoutIndex = csvLayout.index();
         if (options.containsKey(csvLayoutKey)) {
             String searchValue = options.get(csvLayoutKey);
 
             List<String[]> results = new ArrayList<>();
 
             for (String[] csvDatum : csvData) {
-                if (csvDatum[csvLayout.index()].equals(searchValue)) {
+                if (csvDatum[csvLayoutIndex].equals(searchValue)) {
                     results.add(csvDatum);
                 }
             }
-            csvData = results;
+            return results;
         }
         return csvData;
     }
