@@ -7,16 +7,7 @@ import java.io.IOException;
 
 public class FundingRaised {
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
-        List<String[]> csvData = new ArrayList<>();
-        CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
-        String[] row = null;
-
-        while((row = reader.readNext()) != null) {
-            csvData.add(row);
-        }
-
-        reader.close();
-        csvData.remove(0);
+        List<String[]> csvData = readCsv();
 
         if(options.containsKey("company_name")) {
             List<String[]> results = new ArrayList<>();
@@ -82,17 +73,22 @@ public class FundingRaised {
         return output;
     }
 
-    public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
+    private static List<String[]> readCsv() throws IOException {
         List<String[]> csvData = new ArrayList<>();
         CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
         String[] row = null;
 
-        while((row = reader.readNext()) != null) {
+        while ((row = reader.readNext()) != null) {
             csvData.add(row);
         }
 
         reader.close();
         csvData.remove(0);
+        return csvData;
+    }
+
+    public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
+        List<String[]> csvData = readCsv();
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {
