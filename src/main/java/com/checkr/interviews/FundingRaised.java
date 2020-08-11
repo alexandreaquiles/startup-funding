@@ -37,34 +37,6 @@ public class FundingRaised {
         return output;
     }
 
-    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {
-        if (options.containsKey(key)) {
-            List<String[]> results = new ArrayList<>();
-
-            for (String[] csvDatum : csvData) {
-                if (csvDatum[index].equals(options.get(key))) {
-                    results.add(csvDatum);
-                }
-            }
-            csvData = results;
-        }
-        return csvData;
-    }
-
-    private static List<String[]> readCsv() throws IOException {
-        List<String[]> csvData = new ArrayList<>();
-        CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
-        String[] row = null;
-
-        while ((row = reader.readNext()) != null) {
-            csvData.add(row);
-        }
-
-        reader.close();
-        csvData.remove(0);
-        return csvData;
-    }
-
     public static Map<String, String> findBy(Map<String, String> options) throws IOException, NoSuchEntryException {
         List<String[]> csvData = readCsv();
         Map<String, String> mapped = new HashMap<> ();
@@ -142,6 +114,34 @@ public class FundingRaised {
         }
 
         throw new NoSuchEntryException();
+    }
+
+    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {
+        if (options.containsKey(key)) {
+            List<String[]> results = new ArrayList<>();
+
+            for (String[] csvDatum : csvData) {
+                if (csvDatum[index].equals(options.get(key))) {
+                    results.add(csvDatum);
+                }
+            }
+            csvData = results;
+        }
+        return csvData;
+    }
+
+    private static List<String[]> readCsv() throws IOException {
+        List<String[]> csvData = new ArrayList<>();
+        CSVReader reader = new CSVReader(new FileReader("startup_funding.csv"));
+        String[] row = null;
+
+        while ((row = reader.readNext()) != null) {
+            csvData.add(row);
+        }
+
+        reader.close();
+        csvData.remove(0);
+        return csvData;
     }
 
     public static void main(String[] args) {
