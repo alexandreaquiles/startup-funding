@@ -12,10 +12,10 @@ public class FundingRaised {
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = CsvReader.readCsv("startup_funding.csv");
-        csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME.getIndex());
-        csvData = retrieveDataFromCsv(options, csvData, "city", CITY.getIndex());
-        csvData = retrieveDataFromCsv(options, csvData, "state", STATE.getIndex());
-        csvData = retrieveDataFromCsv(options, csvData, "round", ROUND.getIndex());
+        csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME.index());
+        csvData = retrieveDataFromCsv(options, csvData, "city", CITY.index());
+        csvData = retrieveDataFromCsv(options, csvData, "state", STATE.index());
+        csvData = retrieveDataFromCsv(options, csvData, "round", ROUND.index());
 
         List<Map<String, String>> output = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class FundingRaised {
 
         for (String[] csvDatum : csvData) {
             if (options.containsKey("company_name")) {
-                if (csvDatum[COMPANY_NAME.getIndex()].equals(options.get("company_name"))) {
+                if (csvDatum[COMPANY_NAME.index()].equals(options.get("company_name"))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
@@ -42,7 +42,7 @@ public class FundingRaised {
             }
 
             if (options.containsKey("city")) {
-                if (csvDatum[CITY.getIndex()].equals(options.get("city"))) {
+                if (csvDatum[CITY.index()].equals(options.get("city"))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
@@ -50,7 +50,7 @@ public class FundingRaised {
             }
 
             if (options.containsKey("state")) {
-                if (csvDatum[STATE.getIndex()].equals(options.get("state"))) {
+                if (csvDatum[STATE.index()].equals(options.get("state"))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
@@ -58,7 +58,7 @@ public class FundingRaised {
             }
 
             if (options.containsKey("round")) {
-                if (csvDatum[ROUND.getIndex()].equals(options.get("round"))) {
+                if (csvDatum[ROUND.index()].equals(options.get("round"))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
@@ -72,16 +72,16 @@ public class FundingRaised {
     }
 
     private static void retrieveFundingDetailsFromCsvDatum(Map<String, String> mapped, String[] csvDatum) {
-        mapped.put("permalink", csvDatum[PERMALINK.getIndex()]);
-        mapped.put("company_name", csvDatum[COMPANY_NAME.getIndex()]);
-        mapped.put("number_employees", csvDatum[NUMBER_OF_EMPLOYEES.getIndex()]);
-        mapped.put("category", csvDatum[CATEGORY.getIndex()]);
-        mapped.put("city", csvDatum[CITY.getIndex()]);
-        mapped.put("state", csvDatum[STATE.getIndex()]);
-        mapped.put("funded_date", csvDatum[FUNDED_DATE.getIndex()]);
-        mapped.put("raised_amount", csvDatum[RAISED_AMOUNT.getIndex()]);
-        mapped.put("raised_currency", csvDatum[RAISED_CURRENCY.getIndex()]);
-        mapped.put("round", csvDatum[ROUND.getIndex()]);
+        mapped.put("permalink", csvDatum[PERMALINK.index()]);
+        mapped.put("company_name", csvDatum[COMPANY_NAME.index()]);
+        mapped.put("number_employees", csvDatum[NUMBER_OF_EMPLOYEES.index()]);
+        mapped.put("category", csvDatum[CATEGORY.index()]);
+        mapped.put("city", csvDatum[CITY.index()]);
+        mapped.put("state", csvDatum[STATE.index()]);
+        mapped.put("funded_date", csvDatum[FUNDED_DATE.index()]);
+        mapped.put("raised_amount", csvDatum[RAISED_AMOUNT.index()]);
+        mapped.put("raised_currency", csvDatum[RAISED_CURRENCY.index()]);
+        mapped.put("round", csvDatum[ROUND.index()]);
     }
 
     private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {

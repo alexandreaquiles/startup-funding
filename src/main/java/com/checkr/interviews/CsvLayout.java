@@ -18,7 +18,7 @@ public enum CsvLayout {
         this.index = index;
     }
 
-    public int getIndex() {
+    public int index() {
         return index;
     }
 }
