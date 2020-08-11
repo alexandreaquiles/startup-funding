@@ -1,210 +1,147 @@
 package com.checkr.interviews;
-import java.util.*;
+
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit test for simple App.
- */
-public class FundingRaisedTest
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public FundingRaisedTest ( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( FundingRaisedTest.class );
-    }
+public class FundingRaisedTest {
 
     /**
      * Rigourous Test :-)
      */
-    public void testWhereGivenCompany() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "Facebook");
-            assertEquals(FundingRaised.where(options).size(), 7);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void whereGivenCompany() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "Facebook");
+
+        assertEquals(7, FundingRaised.where(options).size());
     }
 
-    public void testWhereGivenCity() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("city", "Tempe");
-            assertEquals(FundingRaised.where(options).size(), 3);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void whereGivenCity() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("city", "Tempe");
+
+        assertEquals(3, FundingRaised.where(options).size());
     }
 
-    public void testWhereGivenState() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("state", "CA");
-            assertEquals(FundingRaised.where(options).size(), 873);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void whereGivenState() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("state", "CA");
+
+        assertEquals(873, FundingRaised.where(options).size());
     }
 
-    public void testWhereGivenRound() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("round", "a");
-            assertEquals(FundingRaised.where(options).size(), 582);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void whereGivenRound() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("round", "a");
+
+        assertEquals(582, FundingRaised.where(options).size());
     }
 
-    public void testMultipleOptions() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("round", "a");
-            options.put("company_name", "Facebook");
-            assertEquals(FundingRaised.where(options).size(), 1);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void multipleOptions() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("round", "a");
+        options.put("company_name", "Facebook");
+
+        assertEquals(1, FundingRaised.where(options).size());
     }
 
-    public void testWhereNotExists() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "NotFacebook");
-            assertEquals(FundingRaised.where(options).size(), 0);
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+    @Test
+    public void whereNotExists() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "NotFacebook");
+
+        assertEquals(0, FundingRaised.where(options).size());
     }
 
-    public void testWhereCorrectKeys() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "Facebook");
-            Map<String, String> row = FundingRaised.where(options).get(0);
+    @Test
+    public void whereCorrectKeys() throws IOException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "Facebook");
 
-            assertEquals(row.get("permalink"), "facebook");
-            assertEquals(row.get("company_name"), "Facebook");
-            assertEquals(row.get("number_employees"), "450");
-            assertEquals(row.get("category"), "web");
-            assertEquals(row.get("city"), "Palo Alto");
-            assertEquals(row.get("state"), "CA");
-            assertEquals(row.get("funded_date"), "1-Sep-04");
-            assertEquals(row.get("raised_amount"), "500000");
-            assertEquals(row.get("round"), "angel");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+        Map<String, String> row = FundingRaised.where(options).get(0);
+
+        assertEquals("facebook", row.get("permalink"));
+        assertEquals("Facebook", row.get("company_name"));
+        assertEquals("450", row.get("number_employees"));
+        assertEquals("web", row.get("category"));
+        assertEquals("Palo Alto", row.get("city"));
+        assertEquals("CA", row.get("state"));
+        assertEquals("1-Sep-04", row.get("funded_date"));
+        assertEquals("500000", row.get("raised_amount"));
+        assertEquals("angel", row.get("round"));
     }
 
-    public void testFindByGivenCompanyName() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "Facebook");
-            Map<String, String> row = FundingRaised.findBy(options);
+    @Test
+    public void findByGivenCompanyName() throws IOException, NoSuchEntryException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "Facebook");
 
-            assertEquals(row.get("permalink"), "facebook");
-            assertEquals(row.get("company_name"), "Facebook");
-            assertEquals(row.get("number_employees"), "450");
-            assertEquals(row.get("category"), "web");
-            assertEquals(row.get("city"), "Palo Alto");
-            assertEquals(row.get("state"), "CA");
-            assertEquals(row.get("funded_date"), "1-Sep-04");
-            assertEquals(row.get("raised_amount"), "500000");
-            assertEquals(row.get("round"), "angel");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        } catch(NoSuchEntryException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+        Map<String, String> row = FundingRaised.findBy(options);
+
+        assertEquals("facebook", row.get("permalink"));
+        assertEquals("Facebook", row.get("company_name"));
+        assertEquals("450", row.get("number_employees"));
+        assertEquals("web", row.get("category"));
+        assertEquals("Palo Alto", row.get("city"));
+        assertEquals("CA", row.get("state"));
+        assertEquals("1-Sep-04", row.get("funded_date"));
+        assertEquals("500000", row.get("raised_amount"));
+        assertEquals("angel", row.get("round"));
     }
 
-    public void testFindByGivenState() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("state", "CA");
-            Map<String, String> row = FundingRaised.findBy(options);
+    @Test
+    public void findByGivenState() throws IOException, NoSuchEntryException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("state", "CA");
 
-            assertEquals(row.get("permalink"), "digg");
-            assertEquals(row.get("company_name"), "Digg");
-            assertEquals(row.get("number_employees"), "60");
-            assertEquals(row.get("category"), "web");
-            assertEquals(row.get("city"), "San Francisco");
-            assertEquals(row.get("state"), "CA");
-            assertEquals(row.get("funded_date"), "1-Dec-06");
-            assertEquals(row.get("raised_amount"), "8500000");
-            assertEquals(row.get("round"), "b");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        } catch(NoSuchEntryException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+        Map<String, String> row = FundingRaised.findBy(options);
+
+        assertEquals("digg", row.get("permalink"));
+        assertEquals("Digg", row.get("company_name"));
+        assertEquals("60", row.get("number_employees"));
+        assertEquals("web", row.get("category"));
+        assertEquals("San Francisco", row.get("city"));
+        assertEquals("CA", row.get("state"));
+        assertEquals("1-Dec-06", row.get("funded_date"));
+        assertEquals("8500000", row.get("raised_amount"));
+        assertEquals("b", row.get("round"));
     }
 
-    public void testFindByMultipleOptions() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "Facebook");
-            options.put("round", "c");
-            Map<String, String> row = FundingRaised.findBy(options);
+    @Test
+    public void findByMultipleOptions() throws IOException, NoSuchEntryException {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "Facebook");
+        options.put("round", "c");
 
-            assertEquals(row.get("permalink"), "facebook");
-            assertEquals(row.get("company_name"), "Facebook");
-            assertEquals(row.get("number_employees"), "450");
-            assertEquals(row.get("category"), "web");
-            assertEquals(row.get("city"), "Palo Alto");
-            assertEquals(row.get("state"), "CA");
-            assertEquals(row.get("funded_date"), "1-Oct-07");
-            assertEquals(row.get("raised_amount"), "300000000");
-            assertEquals(row.get("round"), "c");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        } catch(NoSuchEntryException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        }
+        Map<String, String> row = FundingRaised.findBy(options);
+
+        assertEquals("facebook", row.get("permalink"));
+        assertEquals("Facebook", row.get("company_name"));
+        assertEquals("450", row.get("number_employees"));
+        assertEquals("web", row.get("category"));
+        assertEquals("Palo Alto", row.get("city"));
+        assertEquals("CA", row.get("state"));
+        assertEquals("1-Oct-07", row.get("funded_date"));
+        assertEquals("300000000", row.get("raised_amount"));
+        assertEquals("c", row.get("round"));
     }
 
-    public void testFindByNotExists() {
-        try {
-            Map<String, String> options = new HashMap<String, String> ();
-            options.put("company_name", "NotFacebook");
-            options.put("round", "c");
-            Map<String, String> row = FundingRaised.findBy(options);
-            fail("findBy should throw exception");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        } catch(NoSuchEntryException e) {
-        }
+    @Test
+    public void findByNotExists() {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("company_name", "NotFacebook");
+        options.put("round", "c");
+
+        assertThrows(NoSuchEntryException.class, () -> FundingRaised.findBy(options));
     }
 }
+
