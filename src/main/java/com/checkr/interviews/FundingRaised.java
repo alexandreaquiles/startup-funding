@@ -21,7 +21,7 @@ public class FundingRaised {
 
         for (String[] csvDatum : csvData) {
             Map<String, String> mapped = new HashMap<>();
-            retrieveFundingFromCsvDatum(mapped, csvDatum);
+            retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
             output.add(mapped);
         }
 
@@ -33,37 +33,13 @@ public class FundingRaised {
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {
-            if (options.containsKey("company_name")) {
-                if (csvDatum[1].equals(options.get("company_name"))) {
-                    retrieveFundingFromCsvDatum(mapped, csvDatum);
-                } else {
-                    continue;
-                }
-            }
+            if (retrieveFundingFromCsvDatum(options, mapped, csvDatum, "company_name", 1)) continue;
 
-            if (options.containsKey("city")) {
-                if (csvDatum[4].equals(options.get("city"))) {
-                    retrieveFundingFromCsvDatum(mapped, csvDatum);
-                } else {
-                    continue;
-                }
-            }
+            if (retrieveFundingFromCsvDatum(options, mapped, csvDatum, "city", 4)) continue;
 
-            if (options.containsKey("state")) {
-                if (csvDatum[5].equals(options.get("state"))) {
-                    retrieveFundingFromCsvDatum(mapped, csvDatum);
-                } else {
-                    continue;
-                }
-            }
+            if (retrieveFundingFromCsvDatum(options, mapped, csvDatum, "state", 5)) continue;
 
-            if (options.containsKey("round")) {
-                if (csvDatum[9].equals(options.get("round"))) {
-                    retrieveFundingFromCsvDatum(mapped, csvDatum);
-                } else {
-                    continue;
-                }
-            }
+            if (retrieveFundingFromCsvDatum(options, mapped, csvDatum, "round", 9)) continue;
 
             return mapped;
         }
@@ -71,7 +47,7 @@ public class FundingRaised {
         throw new NoSuchEntryException();
     }
 
-    private static void retrieveFundingFromCsvDatum(Map<String, String> mapped, String[] csvDatum) {
+    private static void retrieveFundingDetailsFromCsvDatum(Map<String, String> mapped, String[] csvDatum) {
         mapped.put("permalink", csvDatum[0]);
         mapped.put("company_name", csvDatum[1]);
         mapped.put("number_employees", csvDatum[2]);
@@ -82,6 +58,17 @@ public class FundingRaised {
         mapped.put("raised_amount", csvDatum[7]);
         mapped.put("raised_currency", csvDatum[8]);
         mapped.put("round", csvDatum[9]);
+    }
+
+    private static boolean retrieveFundingFromCsvDatum(Map<String, String> options, Map<String, String> mapped, String[] csvDatum, String key, int index) {
+        if (options.containsKey(key)) {
+            if (csvDatum[index].equals(options.get(key))) {
+                retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {
