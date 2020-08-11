@@ -12,10 +12,10 @@ public class FundingRaised {
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = CsvReader.readCsv("startup_funding.csv");
-        csvData = retrieveDataFromCsv(options, csvData, COMPANY_NAME.key(), COMPANY_NAME.index());
-        csvData = retrieveDataFromCsv(options, csvData, CITY.key(), CITY.index());
-        csvData = retrieveDataFromCsv(options, csvData, STATE.key(), STATE.index());
-        csvData = retrieveDataFromCsv(options, csvData, ROUND.key(), ROUND.index());
+        csvData = retrieveDataFromCsv(options, csvData, COMPANY_NAME);
+        csvData = retrieveDataFromCsv(options, csvData, CITY);
+        csvData = retrieveDataFromCsv(options, csvData, STATE);
+        csvData = retrieveDataFromCsv(options, csvData, ROUND);
 
         List<Map<String, String>> output = new ArrayList<>();
 
@@ -84,12 +84,15 @@ public class FundingRaised {
         mapped.put("round", csvDatum[ROUND.index()]);
     }
 
-    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {
-        if (options.containsKey(key)) {
+    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, CsvLayout csvLayout) {
+        String csvLayoutKey = csvLayout.key();
+        if (options.containsKey(csvLayoutKey)) {
+            String searchValue = options.get(csvLayoutKey);
+
             List<String[]> results = new ArrayList<>();
 
             for (String[] csvDatum : csvData) {
-                if (csvDatum[index].equals(options.get(key))) {
+                if (csvDatum[csvLayout.index()].equals(searchValue)) {
                     results.add(csvDatum);
                 }
             }
