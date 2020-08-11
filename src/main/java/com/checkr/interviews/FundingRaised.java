@@ -9,49 +9,13 @@ public class FundingRaised {
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = readCsv();
 
-        if(options.containsKey("company_name")) {
-            List<String[]> results = new ArrayList<>();
+        csvData = retrieveDataFromCsv(options, csvData, "company_name", 1);
 
-            for (String[] csvDatum : csvData) {
-                if (csvDatum[1].equals(options.get("company_name"))) {
-                    results.add(csvDatum);
-                }
-            }
-            csvData = results;
-        }
+        csvData = retrieveDataFromCsv(options, csvData, "city", 4);
 
-        if(options.containsKey("city")) {
-            List<String[]> results = new ArrayList<>();
+        csvData = retrieveDataFromCsv(options, csvData, "state", 5);
 
-            for (String[] csvDatum : csvData) {
-                if (csvDatum[4].equals(options.get("city"))) {
-                    results.add(csvDatum);
-                }
-            }
-            csvData = results;
-        }
-
-        if(options.containsKey("state")) {
-            List<String[]> results = new ArrayList<>();
-
-            for (String[] csvDatum : csvData) {
-                if (csvDatum[5].equals(options.get("state"))) {
-                    results.add(csvDatum);
-                }
-            }
-            csvData = results;
-        }
-
-        if(options.containsKey("round")) {
-            List<String[]> results = new ArrayList<>();
-
-            for (String[] csvDatum : csvData) {
-                if (csvDatum[9].equals(options.get("round"))) {
-                    results.add(csvDatum);
-                }
-            }
-            csvData = results;
-        }
+        csvData = retrieveDataFromCsv(options, csvData, "round", 9);
 
         List<Map<String, String>> output = new ArrayList<>();
 
@@ -71,6 +35,20 @@ public class FundingRaised {
         }
 
         return output;
+    }
+
+    private static List<String[]> retrieveDataFromCsv(Map<String, String> options, List<String[]> csvData, String key, int index) {
+        if (options.containsKey(key)) {
+            List<String[]> results = new ArrayList<>();
+
+            for (String[] csvDatum : csvData) {
+                if (csvDatum[index].equals(options.get(key))) {
+                    results.add(csvDatum);
+                }
+            }
+            csvData = results;
+        }
+        return csvData;
     }
 
     private static List<String[]> readCsv() throws IOException {
