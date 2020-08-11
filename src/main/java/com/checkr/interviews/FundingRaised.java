@@ -7,26 +7,22 @@ import java.io.IOException;
 
 public class FundingRaised {
 
-    public static final int PERMALINK_INDEX = 0;
-    public static final int COMPANY_NAME_INDEX = 1;
-    public static final int NUMBER_OF_EMPLOYEES_INDEX = 2;
-    public static final int CATEGORY_INDEX = 3;
-    public static final int CITY_INDEX = 4;
-    public static final int STATE_INDEX = 5;
-    public static final int FUNDED_DATE_INDEX = 6;
-    public static final int RAISED_AMOUNT_INDEX = 7;
-    public static final int REASED_CURRENCY_INDEX = 8;
-    public static final int ROUND_INDEX = 9;
+    public static final int PERMALINK_INDEX = CsvLayout.PERMALINK_INDEX.getIndex();
+    public static final int COMPANY_NAME_INDEX = CsvLayout.COMPANY_NAME_INDEX.getIndex();
+    public static final int NUMBER_OF_EMPLOYEES_INDEX = CsvLayout.NUMBER_OF_EMPLOYEES_INDEX.getIndex();
+    public static final int CATEGORY_INDEX = CsvLayout.CATEGORY_INDEX.getIndex();
+    public static final int CITY_INDEX = CsvLayout.CITY_INDEX.getIndex();
+    public static final int STATE_INDEX = CsvLayout.STATE_INDEX.getIndex();
+    public static final int FUNDED_DATE_INDEX = CsvLayout.FUNDED_DATE_INDEX.getIndex();
+    public static final int RAISED_AMOUNT_INDEX = CsvLayout.RAISED_AMOUNT_INDEX.getIndex();
+    public static final int RAISED_CURRENCY_INDEX = CsvLayout.RAISED_CURRENCY_INDEX.getIndex();
+    public static final int ROUND_INDEX = CsvLayout.ROUND_INDEX.getIndex();
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = readCsv();
-
         csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME_INDEX);
-
         csvData = retrieveDataFromCsv(options, csvData, "city", CITY_INDEX);
-
         csvData = retrieveDataFromCsv(options, csvData, "state", STATE_INDEX);
-
         csvData = retrieveDataFromCsv(options, csvData, "round", ROUND_INDEX);
 
         List<Map<String, String>> output = new ArrayList<>();
@@ -92,7 +88,7 @@ public class FundingRaised {
         mapped.put("state", csvDatum[STATE_INDEX]);
         mapped.put("funded_date", csvDatum[FUNDED_DATE_INDEX]);
         mapped.put("raised_amount", csvDatum[RAISED_AMOUNT_INDEX]);
-        mapped.put("raised_currency", csvDatum[REASED_CURRENCY_INDEX]);
+        mapped.put("raised_currency", csvDatum[RAISED_CURRENCY_INDEX]);
         mapped.put("round", csvDatum[ROUND_INDEX]);
     }
 
