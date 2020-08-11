@@ -1,6 +1,8 @@
 package com.checkr.interviews.funding.csv;
 
-public enum FundingCsvLayout {
+import com.checkr.interviews.csv.CsvLayout;
+
+public enum FundingCsvLayout implements CsvLayout {
     PERMALINK(0, "permalink"),
     COMPANY_NAME(1, "company_name"),
     NUMBER_OF_EMPLOYEES(2, "number_of_employees"),
@@ -20,10 +22,12 @@ public enum FundingCsvLayout {
         this.key = key;
     }
 
+    @Override
     public int index() {
         return index;
     }
 
+    @Override
     public String key() {
         return key;
     }
