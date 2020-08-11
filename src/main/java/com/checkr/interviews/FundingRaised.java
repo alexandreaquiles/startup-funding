@@ -12,10 +12,10 @@ public class FundingRaised {
 
     public static List<Map<String, String>> where(Map<String, String> options) throws IOException {
         List<String[]> csvData = CsvReader.readCsv("startup_funding.csv");
-        csvData = retrieveDataFromCsv(options, csvData, "company_name", COMPANY_NAME.index());
-        csvData = retrieveDataFromCsv(options, csvData, "city", CITY.index());
-        csvData = retrieveDataFromCsv(options, csvData, "state", STATE.index());
-        csvData = retrieveDataFromCsv(options, csvData, "round", ROUND.index());
+        csvData = retrieveDataFromCsv(options, csvData, COMPANY_NAME.key(), COMPANY_NAME.index());
+        csvData = retrieveDataFromCsv(options, csvData, CITY.key(), CITY.index());
+        csvData = retrieveDataFromCsv(options, csvData, STATE.key(), STATE.index());
+        csvData = retrieveDataFromCsv(options, csvData, ROUND.key(), ROUND.index());
 
         List<Map<String, String>> output = new ArrayList<>();
 
@@ -33,32 +33,32 @@ public class FundingRaised {
         Map<String, String> mapped = new HashMap<> ();
 
         for (String[] csvDatum : csvData) {
-            if (options.containsKey("company_name")) {
-                if (csvDatum[COMPANY_NAME.index()].equals(options.get("company_name"))) {
+            if (options.containsKey(COMPANY_NAME.key())) {
+                if (csvDatum[COMPANY_NAME.index()].equals(options.get(COMPANY_NAME.key()))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
                 }
             }
 
-            if (options.containsKey("city")) {
-                if (csvDatum[CITY.index()].equals(options.get("city"))) {
+            if (options.containsKey(CITY.key())) {
+                if (csvDatum[CITY.index()].equals(options.get(CITY.key()))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
                 }
             }
 
-            if (options.containsKey("state")) {
-                if (csvDatum[STATE.index()].equals(options.get("state"))) {
+            if (options.containsKey(STATE.key())) {
+                if (csvDatum[STATE.index()].equals(options.get(STATE.key()))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
                 }
             }
 
-            if (options.containsKey("round")) {
-                if (csvDatum[ROUND.index()].equals(options.get("round"))) {
+            if (options.containsKey(ROUND.key())) {
+                if (csvDatum[ROUND.index()].equals(options.get(ROUND.key()))) {
                     retrieveFundingDetailsFromCsvDatum(mapped, csvDatum);
                 } else {
                     continue;
