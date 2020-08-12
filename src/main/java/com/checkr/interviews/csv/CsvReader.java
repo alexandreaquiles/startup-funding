@@ -11,16 +11,14 @@ public class CsvReader {
 
     public static List<String[]> readCsv(String fileName) throws IOException {
         List<String[]> csvData = new ArrayList<>();
-        CSVReader reader = new CSVReader(new FileReader(fileName));
-        String[] row = null;
-
-        while ((row = reader.readNext()) != null) {
-            csvData.add(row);
+        try(CSVReader reader = new CSVReader(new FileReader(fileName))) {
+            String[] row;
+            while ((row = reader.readNext()) != null) {
+                csvData.add(row);
+            }
+            removeCsvHeader(csvData);
+            return csvData;
         }
-
-        reader.close();
-        removeCsvHeader(csvData);
-        return csvData;
     }
 
     private static void removeCsvHeader(List<String[]> csvData) {
